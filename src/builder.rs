@@ -1,7 +1,6 @@
-use super::{Result, NetBox};
+use super::{NetBox, Result};
 
 use std::error::Error;
-
 
 use reqwest::ClientBuilder;
 
@@ -40,13 +39,11 @@ impl NetBoxBuilder {
             return Err(Box::<dyn Error>::from("token is to short".to_string()));
         }
 
-        Ok(
-            Self {
-                base_url: base_url.to_string(),
-                token: base_url.to_string(),
-                client_builder: Some(client_builder),
-            }
-        )
+        Ok(Self {
+            base_url: base_url.to_string(),
+            token: base_url.to_string(),
+            client_builder: Some(client_builder),
+        })
     }
 
     pub fn build(mut self) -> Result<NetBox> {
@@ -63,7 +60,7 @@ impl NetBoxBuilder {
     // reqwest functions
     pub fn accept_invalid(&mut self, accept_invalid_certs: bool) {
         let builder = self.client_builder.take();
-        let builder = builder.map(|b| {b.danger_accept_invalid_certs(accept_invalid_certs)});
+        let builder = builder.map(|b| b.danger_accept_invalid_certs(accept_invalid_certs));
         self.client_builder = builder;
     }
 
@@ -82,7 +79,7 @@ impl NetBoxBuilder {
     pub fn add_proxy(&mut self, proxy: reqwest::Proxy) {
         let builder = self.client_builder.take();
         let builder = builder.map(|b| b.proxy(proxy));
-        self.client_builder = builder;        
+        self.client_builder = builder;
     }
 
     pub fn user_agent(&mut self, agent: &str) {

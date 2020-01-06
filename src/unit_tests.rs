@@ -17,14 +17,16 @@ fn check_url() {
     super::NetBoxBuilder::new(
         "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "http://netbox.example.com",
-    ).unwrap_err();
+    )
+    .unwrap_err();
 }
-
 
 #[test]
 fn build() -> super::Result<()> {
     super::NetBoxBuilder::new(
         "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "http://netbox.example.com/api/",
-    )?.build().map(|_| ())
+    )?
+    .build()
+    .map(|_| ())
 }
